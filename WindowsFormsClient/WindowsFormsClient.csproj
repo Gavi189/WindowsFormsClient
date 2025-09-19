@@ -84,7 +84,10 @@
     <None Include="Resources\online-library.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\gabriel-sollmann-Y7d265_7i08-unsplash.jpg" />
+    <None Include="Resources\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\visual.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
