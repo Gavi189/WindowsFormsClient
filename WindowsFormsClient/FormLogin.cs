@@ -15,11 +15,13 @@ namespace WindowsFormsClient
         public FormLogin()
         {
             InitializeComponent();
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnFechar_Click(object sender, EventArgs e)
         {
-
+            Application.Exit();//Fecha todos os Forms
+            //this.Close(); Fecha apenas o Form atual
         }
     }
 }

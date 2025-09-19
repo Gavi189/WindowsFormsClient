@@ -28,17 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnlAzul = new System.Windows.Forms.Panel();
             this.btnFechar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // panel1
+            // pnlAzul
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(400, 700);
-            this.panel1.TabIndex = 0;
+            this.pnlAzul.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.pnlAzul.Location = new System.Drawing.Point(0, 0);
+            this.pnlAzul.Name = "pnlAzul";
+            this.pnlAzul.Size = new System.Drawing.Size(400, 700);
+            this.pnlAzul.TabIndex = 0;
             // 
             // btnFechar
             // 
@@ -48,13 +48,13 @@
             this.btnFechar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFechar.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFechar.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.btnFechar.Location = new System.Drawing.Point(842, 12);
+            this.btnFechar.Location = new System.Drawing.Point(860, 0);
             this.btnFechar.Name = "btnFechar";
             this.btnFechar.Size = new System.Drawing.Size(40, 40);
             this.btnFechar.TabIndex = 1;
             this.btnFechar.Text = "X";
             this.btnFechar.UseVisualStyleBackColor = true;
-            this.btnFechar.Click += new System.EventHandler(this.button1_Click);
+            this.btnFechar.Click += new System.EventHandler(this.btnFechar_Click);
             // 
             // FormLogin
             // 
@@ -63,7 +63,7 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(900, 700);
             this.Controls.Add(this.btnFechar);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pnlAzul);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormLogin";
             this.Text = "FormLogin";
@@ -73,7 +73,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnlAzul;
         private System.Windows.Forms.Button btnFechar;
     }
 }
