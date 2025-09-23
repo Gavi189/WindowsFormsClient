@@ -32,6 +32,7 @@
             this.lblBiblioteca = new System.Windows.Forms.Label();
             this.lblSistema = new System.Windows.Forms.Label();
             this.lblBemVindo = new System.Windows.Forms.Label();
+            this.pbxLogo = new System.Windows.Forms.PictureBox();
             this.btnFechar = new System.Windows.Forms.Button();
             this.lblEmail = new System.Windows.Forms.Label();
             this.tbxEmail = new System.Windows.Forms.TextBox();
@@ -40,11 +41,10 @@
             this.btnEntrar = new System.Windows.Forms.Button();
             this.pbxSenha = new System.Windows.Forms.PictureBox();
             this.pbxUsuario = new System.Windows.Forms.PictureBox();
-            this.pbxLogo = new System.Windows.Forms.PictureBox();
             this.pnlAzul.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxSenha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxUsuario)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlAzul
@@ -91,6 +91,16 @@
             this.lblBemVindo.Size = new System.Drawing.Size(287, 45);
             this.lblBemVindo.TabIndex = 1;
             this.lblBemVindo.Text = "Seja bem-vindo ao";
+            // 
+            // pbxLogo
+            // 
+            this.pbxLogo.Image = global::WindowsFormsClient.Properties.Resources.online_library;
+            this.pbxLogo.Location = new System.Drawing.Point(135, 200);
+            this.pbxLogo.Name = "pbxLogo";
+            this.pbxLogo.Size = new System.Drawing.Size(130, 130);
+            this.pbxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbxLogo.TabIndex = 0;
+            this.pbxLogo.TabStop = false;
             // 
             // btnFechar
             // 
@@ -165,6 +175,7 @@
             this.btnEntrar.TabIndex = 6;
             this.btnEntrar.Text = "Entrar";
             this.btnEntrar.UseVisualStyleBackColor = true;
+            this.btnEntrar.Click += new System.EventHandler(this.btnEntrar_Click);
             // 
             // pbxSenha
             // 
@@ -188,16 +199,6 @@
             this.pbxUsuario.TabIndex = 7;
             this.pbxUsuario.TabStop = false;
             // 
-            // pbxLogo
-            // 
-            this.pbxLogo.Image = global::WindowsFormsClient.Properties.Resources.online_library;
-            this.pbxLogo.Location = new System.Drawing.Point(135, 200);
-            this.pbxLogo.Name = "pbxLogo";
-            this.pbxLogo.Size = new System.Drawing.Size(130, 130);
-            this.pbxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbxLogo.TabIndex = 0;
-            this.pbxLogo.TabStop = false;
-            // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -218,9 +219,9 @@
             this.Text = "FormLogin";
             this.pnlAzul.ResumeLayout(false);
             this.pnlAzul.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxSenha)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxUsuario)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
