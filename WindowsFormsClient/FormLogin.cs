@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClassLibraryUser;
+using System.Data.SqlClient;
 
 namespace WindowsFormsClient
 {
@@ -20,6 +21,7 @@ namespace WindowsFormsClient
         }
 
         private ClassUser _user = new ClassUser(0, "", "", "");
+        private ConnClass _conn = new ConnClass();
 
         private void btnFechar_Click(object sender, EventArgs e)
         {
@@ -58,6 +60,23 @@ namespace WindowsFormsClient
                 this.Hide();
             }
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try//Tentar executar
+            {
+                using (SqlConnection cn = _conn.GetConnection())
+                {
+                    cn.Open();
+                    MessageBox.Show(cn.ToString(),"Banco de Dados");
+                }
+            }
+            catch(Exception erro)//Pegar um erro 
+            {
+                MessageBox.Show(erro.ToString(),"Erro no BD");
+            }
+            //finally{} //Executar mesmo que try falha
         }
     }
 }
