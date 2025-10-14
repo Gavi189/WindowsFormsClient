@@ -1,70 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
-using System.Data;
-using System.Diagnostics.Eventing.Reader;
 
 namespace ClassLibraryUser
 {
-    public class ClassUser
+    public class ProductClass
     {
         //Propriedades
-        private int Id {  get; set; }
+        private int Id_Product { get; set; }
         private string Name { get; set; }
-        private string Email{ get; set; }
-        private string Password { get; set; }
+        private string Description { get; set; }
+        private double Price { get; set; }
+        private bool Status { get; set; }
 
         private ConnClass _conn = new ConnClass();
 
         //Construtor
-        public ClassUser(int _id, string _name, string _email, string _password)
+        public ProductClass(int _id, string _name, string _description, double _price, bool _status)
         {
-            this.Id = _id;
+            this.Id_Product = _id;
             this.Name = _name;
-            this.Email = _email;
-            this.Password = _password;
+            this.Description = _description;
+            this.Price = _price;
+            this.Status = _status;
         }
 
         //Métodos
-        //CRUD Read = Select
-        public DataTable Entrar(string email, string password)//C#
+        //CRUD Read = Select -> Pesquisar
+        public DataTable ProductSearch(string name, string description)//C#
         {
-            //DataTable dt = new DataTable(); && e AND
+            //DataTable dt = new DataTable(); && = AND e || = OR
             var dt = new DataTable();// var similar VARCHAR variável temporário
-            string sql = "SELECT * FROM Usuario WHERE email=@Email AND senha=@Password;";
-
-            try 
-            {
-                using(SqlConnection cn = _conn.GetConnection())
-                {
-                    cn.Open();
-                    using(SqlCommand cmd = new SqlCommand(sql,cn))
-                    {
-                        cmd.Parameters.AddWithValue("@Email",email);
-                        cmd.Parameters.AddWithValue("@Password",password);
-
-                        using(SqlDataAdapter da = new SqlDataAdapter(cmd))
-                        {
-                            da.Fill(dt);
-                        }
-                    }
-                }           
-            }
-            catch(Exception erro) 
-            { 
-                Console.WriteLine(erro.Message);
-            }
-            return dt;
-        }
-
-        //Function to Admin
-        //CRUD Creat = Insert
-        public bool Registrar()
-        {   
-            string sql = "INSERT INTO Usuario (nome, email, senha) VALUES (@Nome, @Email, @Senha);";
+            string sql = "SELECT * FROM Product WHERE Name LIKE @Name OR Description LIKE @Description;";
 
             try
             {
@@ -73,9 +44,41 @@ namespace ClassLibraryUser
                     cn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, cn))
                     {
-                        cmd.Parameters.AddWithValue("@Nome", this.Name);
-                        cmd.Parameters.AddWithValue("@Email", this.Email);
-                        cmd.Parameters.AddWithValue("@Senha", this.Password);
+                        cmd.Parameters.AddWithValue("@Name", $"% {name} %");
+                        cmd.Parameters.AddWithValue("@Description", "%" + description + "%");
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
+                    }
+                }
+            }
+            catch (Exception erro)
+            {
+                Console.WriteLine(erro.Message);
+            }
+            return dt;
+        }
+
+        //Function to Admin
+        //CRUD Creat = Insert
+        public bool Registrar()
+        {
+            string sql = "INSERT INTO Product (Name, Description, Price, Status) VALUES (@Name, @Description, @Price, @Status);";
+
+            try
+            {
+                using (SqlConnection cn = _conn.GetConnection())
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, cn))
+                    {
+                        cmd.Parameters.AddWithValue("@Name", this.Name);
+                        cmd.Parameters.AddWithValue("@Description", this.Description);
+                        cmd.Parameters.AddWithValue("@Price", this.Price);
+                        cmd.Parameters.AddWithValue("@Status", this.Status);
+
 
                         //Execucção da instrução de Transação de Dados (DML)
                         int linhasAfetadas = cmd.ExecuteNonQuery();
@@ -85,18 +88,18 @@ namespace ClassLibraryUser
                 }
             }
             catch (Exception erro)
-            {   
+            {
                 Console.WriteLine(erro.Message);
                 return false;
             }
-            
+
         }
 
         //Function to Admin
         //CRUD Update = Atualização
         public bool Atualizar()
         {
-            string sql = "UPDATE Usuario SET nome=@Nome,email=@Email,senha=@Senha WHERE id_Usuario=@IdUsuario;";
+            string sql = "UPDATE Product SET Name=@Name,Description=@Description,Price=@Price, Status=@Status WHERE id_Product=@IdProduct;";
 
             try
             {
@@ -105,10 +108,11 @@ namespace ClassLibraryUser
                     cn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, cn))
                     {
-                        cmd.Parameters.AddWithValue("@IdUsuario", this.Id);
-                        cmd.Parameters.AddWithValue("@Nome", this.Name);
-                        cmd.Parameters.AddWithValue("@Email", this.Email);
-                        cmd.Parameters.AddWithValue("@Senha", this.Password);
+                        cmd.Parameters.AddWithValue("@IdProduct", this.Id_Product);
+                        cmd.Parameters.AddWithValue("@Name", this.Name);
+                        cmd.Parameters.AddWithValue("@Description", this.Description);
+                        cmd.Parameters.AddWithValue("@Price", this.Price);
+                        cmd.Parameters.AddWithValue("@Status", this.Status);
 
                         //Execucção da instrução de Transação de Dados (DML)
                         int linhasAfetadas = cmd.ExecuteNonQuery();
@@ -128,7 +132,7 @@ namespace ClassLibraryUser
         //CRUD Delete = Remoção
         public bool Remover()
         {
-            string sql = "DELETE FROM Usuario WHERE id_Usuario=@IdUsuario;";
+            string sql = "DELETE FROM Product WHERE id_Product=@IdProduct;";
 
             try
             {
@@ -137,8 +141,8 @@ namespace ClassLibraryUser
                     cn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, cn))
                     {
-                        cmd.Parameters.AddWithValue("@IdUsuario", this.Id);
-                        
+                        cmd.Parameters.AddWithValue("@IdProduct", this.Id_Product);
+
                         //Execucção da instrução de Transação de Dados (DML)
                         int linhasAfetadas = cmd.ExecuteNonQuery();
 

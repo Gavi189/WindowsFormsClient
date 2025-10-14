@@ -21,7 +21,6 @@ namespace WindowsFormsClient
         }
 
         private ClassUser _user = new ClassUser(0, "", "", "");
-        private ConnClass _conn = new ConnClass();
 
         private void btnFechar_Click(object sender, EventArgs e)
         {
@@ -50,33 +49,27 @@ namespace WindowsFormsClient
             password = tbxSenha.Text;
 
             //Processamento
-            string mensagem = _user.Entrar(email, password);
-            MessageBox.Show(mensagem, "Login"); //Saída
+            DataTable dt = _user.Entrar(email, password);
 
-            if (mensagem == "Login feito com sucesso.")
-            { 
-                FormHome _formHome = new FormHome();
-                _formHome.Show();
-                this.Hide();
-            }
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            try//Tentar executar
-            {
-                using (SqlConnection cn = _conn.GetConnection())
+            
+                if (dt.Rows.Count > 0)
                 {
-                    cn.Open();
-                    MessageBox.Show(cn.ToString(),"Banco de Dados");
+                    MessageBox.Show("Sucesso");
+                    FormHome _formHome = new FormHome();
+                    _formHome.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Sem Sucesso");
+
                 }
             }
-            catch(Exception erro)//Pegar um erro 
-            {
-                MessageBox.Show(erro.ToString(),"Erro no BD");
-            }
-            //finally{} //Executar mesmo que try falha
-        }
+           
+
+           
+
+        
+
     }
 }

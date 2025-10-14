@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ClassUser.cs" />
     <Compile Include="ConnClass.cs" />
+    <Compile Include="ProductClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
