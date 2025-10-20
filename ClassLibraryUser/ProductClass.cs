@@ -1,41 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace ClassLibraryUser
 {
     public class ProductClass
     {
-        //Propriedades
-        private int Id_Product { get; set; }
-        private string Name { get; set; }
-        private string Description { get; set; }
-        private double Price { get; set; }
-        private bool Status { get; set; }
+        public int Id_Product { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
+        public bool Status { get; set; }
 
         private ConnClass _conn = new ConnClass();
 
-        //Construtor
-        public ProductClass(int _id, string _name, string _description, double _price, bool _status)
+        public ProductClass(int id, string name, string description, double price, bool status)
         {
-            this.Id_Product = _id;
-            this.Name = _name;
-            this.Description = _description;
-            this.Price = _price;
-            this.Status = _status;
+            Id_Product = id;
+            Name = name;
+            Description = description;
+            Price = price;
+            Status = status;
         }
 
-        //Métodos
-        //CRUD Read = Select -> Pesquisar
-        public DataTable ProductSearch(string name, string description)//C#
+        public DataTable ProductSearch(string search)
         {
-            //DataTable dt = new DataTable(); && = AND e || = OR
-            var dt = new DataTable();// var similar VARCHAR variável temporário
-            string sql = "SELECT * FROM Product WHERE Name LIKE @Name OR Description LIKE @Description;";
+            var dt = new DataTable();
+            string sql = @"SELECT id_Product, Name, Description, Price, Status 
+                           FROM Product 
+                           WHERE Name LIKE @Name";
 
             try
             {
@@ -44,9 +37,7 @@ namespace ClassLibraryUser
                     cn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, cn))
                     {
-                        cmd.Parameters.AddWithValue("@Name", $"% {name} %");
-                        cmd.Parameters.AddWithValue("@Description", "%" + description + "%");
-
+                        cmd.Parameters.AddWithValue("@Name", $"%{search}%");
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {
                             da.Fill(dt);
@@ -54,18 +45,18 @@ namespace ClassLibraryUser
                     }
                 }
             }
-            catch (Exception erro)
+            catch (Exception ex)
             {
-                Console.WriteLine(erro.Message);
+                Console.WriteLine(ex.Message);
             }
+
             return dt;
         }
 
-        //Function to Admin
-        //CRUD Creat = Insert
         public bool Registrar()
         {
-            string sql = "INSERT INTO Product (Name, Description, Price, Status) VALUES (@Name, @Description, @Price, @Status);";
+            string sql = @"INSERT INTO Product (Name, Description, Price, Status) 
+                           VALUES (@Name, @Description, @Price, @Status)";
 
             try
             {
@@ -74,32 +65,27 @@ namespace ClassLibraryUser
                     cn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, cn))
                     {
-                        cmd.Parameters.AddWithValue("@Name", this.Name);
-                        cmd.Parameters.AddWithValue("@Description", this.Description);
-                        cmd.Parameters.AddWithValue("@Price", this.Price);
-                        cmd.Parameters.AddWithValue("@Status", this.Status);
+                        cmd.Parameters.AddWithValue("@Name", Name);
+                        cmd.Parameters.AddWithValue("@Description", Description ?? "");
+                        cmd.Parameters.AddWithValue("@Price", Price);
+                        cmd.Parameters.AddWithValue("@Status", Status);
 
-
-                        //Execucção da instrução de Transação de Dados (DML)
-                        int linhasAfetadas = cmd.ExecuteNonQuery();
-
-                        return linhasAfetadas > 0;
+                        return cmd.ExecuteNonQuery() > 0;
                     }
                 }
             }
-            catch (Exception erro)
+            catch (Exception ex)
             {
-                Console.WriteLine(erro.Message);
+                Console.WriteLine(ex.Message);
                 return false;
             }
-
         }
 
-        //Function to Admin
-        //CRUD Update = Atualização
         public bool Atualizar()
         {
-            string sql = "UPDATE Product SET Name=@Name,Description=@Description,Price=@Price, Status=@Status WHERE id_Product=@IdProduct;";
+            string sql = @"UPDATE Product 
+                           SET Name=@Name, Description=@Description, Price=@Price, Status=@Status
+                           WHERE id_Product=@IdProduct";
 
             try
             {
@@ -108,31 +94,26 @@ namespace ClassLibraryUser
                     cn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, cn))
                     {
-                        cmd.Parameters.AddWithValue("@IdProduct", this.Id_Product);
-                        cmd.Parameters.AddWithValue("@Name", this.Name);
-                        cmd.Parameters.AddWithValue("@Description", this.Description);
-                        cmd.Parameters.AddWithValue("@Price", this.Price);
-                        cmd.Parameters.AddWithValue("@Status", this.Status);
+                        cmd.Parameters.AddWithValue("@IdProduct", Id_Product);
+                        cmd.Parameters.AddWithValue("@Name", Name);
+                        cmd.Parameters.AddWithValue("@Description", Description ?? "");
+                        cmd.Parameters.AddWithValue("@Price", Price);
+                        cmd.Parameters.AddWithValue("@Status", Status);
 
-                        //Execucção da instrução de Transação de Dados (DML)
-                        int linhasAfetadas = cmd.ExecuteNonQuery();
-
-                        return linhasAfetadas > 0;
+                        return cmd.ExecuteNonQuery() > 0;
                     }
                 }
             }
-            catch (Exception erro)
+            catch (Exception ex)
             {
-                Console.WriteLine(erro.Message);
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
 
-        //Function to Admin
-        //CRUD Delete = Remoção
         public bool Remover()
         {
-            string sql = "DELETE FROM Product WHERE id_Product=@IdProduct;";
+            string sql = @"DELETE FROM Product WHERE id_Product=@IdProduct";
 
             try
             {
@@ -141,18 +122,14 @@ namespace ClassLibraryUser
                     cn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, cn))
                     {
-                        cmd.Parameters.AddWithValue("@IdProduct", this.Id_Product);
-
-                        //Execucção da instrução de Transação de Dados (DML)
-                        int linhasAfetadas = cmd.ExecuteNonQuery();
-
-                        return linhasAfetadas > 0;
+                        cmd.Parameters.AddWithValue("@IdProduct", Id_Product);
+                        return cmd.ExecuteNonQuery() > 0;
                     }
                 }
             }
-            catch (Exception erro)
+            catch (Exception ex)
             {
-                Console.WriteLine(erro.Message);
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
