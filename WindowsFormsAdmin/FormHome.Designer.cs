@@ -53,7 +53,7 @@
             this.dgvProduct.Name = "dgvProduct";
             this.dgvProduct.Size = new System.Drawing.Size(240, 150);
             this.dgvProduct.TabIndex = 0;
-
+            this.dgvProduct.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dgvProduct_MouseDoubleClick);
             // 
             // tbxSearch
             // 

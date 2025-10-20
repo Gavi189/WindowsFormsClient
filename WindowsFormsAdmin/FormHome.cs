@@ -96,6 +96,24 @@ namespace WindowsFormsAdmin
 
         private void dgvProduct_MouseDoubleClick_1(object sender, MouseEventArgs e)
         {
+            
+        }
+
+        private void btnCreate_Click(object sender, EventArgs e)
+        {
+            ProductClass _product = new ProductClass(0, tbxSearch.Text,tbxDescription.Text, Convert.ToDouble(tbxPrice.Text), true);
+            if (_product.Registrar())
+            {
+                MessageBox.Show("Sucesso"); //Saída
+            }
+            else
+            {
+                MessageBox.Show("Erro"); //Saída
+            }
+        }
+
+        private void dgvProduct_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
             var hit = dgvProduct.HitTest(e.X, e.Y);
 
             // Verifica se realmente clicou em uma célula válida
@@ -114,19 +132,6 @@ namespace WindowsFormsAdmin
                 }
                 else { rbtnStored.Checked = !ativo; }
 
-            }
-        }
-
-        private void btnCreate_Click(object sender, EventArgs e)
-        {
-            ProductClass _product = new ProductClass(0, tbxSearch.Text,tbxDescription.Text, Convert.ToDouble(tbxPrice.Text), true);
-            if (_product.Registrar())
-            {
-                MessageBox.Show("Sucesso"); //Saída
-            }
-            else
-            {
-                MessageBox.Show("Erro"); //Saída
             }
         }
     }
